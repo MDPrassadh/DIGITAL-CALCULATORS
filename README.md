@@ -114,11 +114,16 @@ Prerequisites:
 
 
 
-Step 1: Initialize the DatabaseBash
-```bash
-Run a local PostgreSQL instance for testing
-docker run --name calc-db -e POSTGRES_USER=calc_admin -e POSTGRES_PASSWORD=VaultPass99 -e POSTGRES_DB=calculator_db -p 5432:5432 -d postgres:15-alpine
+## 👨‍💻 Local Development Guide
 
+### Prerequisites
+*   Node.js (v18+)
+*   Docker Desktop (Optional, for local database container)
+
+### Step 1: Initialize the Database
+```bash
+# Run a local PostgreSQL instance for testing
+docker run --name calc-db -e POSTGRES_USER=calc_admin -e POSTGRES_PASSWORD=VaultPass99 -e POSTGRES_DB=calculator_db -p 5432:5432 -d postgres:15-alpine
 
 Step 2: Boot the Backend EngineBashcd backend
 ```bash
