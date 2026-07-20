@@ -127,8 +127,8 @@ docker run --name calc-db -e POSTGRES_USER=calc_admin -e POSTGRES_PASSWORD=Vault
 
 Step 2: Boot the Backend EngineBashcd backend
 ```bash
-npm install
-npm start
+*"npm install
+npm start"*
 
 # Server listens on http://localhost:8080. It will auto-initialize the database tables on startup.
 
