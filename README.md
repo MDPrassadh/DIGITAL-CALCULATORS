@@ -61,7 +61,7 @@ C:.
 │   │   │   ├── CurrencyCalc.jsx  # Live Exchange Rate Module
 │   │   │   ├── FinancialCalc.jsx # Mortgage & Loan Module
 
-
+---
 🔄 CI/CD & GitOps Workflow
 
 This project abandons manual deployments in favor of a declarative, pull-based GitOps model. This ensures the cluster always matches the code in Git.
@@ -78,7 +78,7 @@ I. Continuous Integration (GitHub Actions)When code is pushed to the main branch
          Compiles the Docker images and pushes them to Amazon ECR.
 
 4 Manifest Mutation: The pipeline programmatically updates the image tags inside k8s/*-deployment.yaml and commits the new state back to the repository.
-
+---
 II. Continuous Deployment (ArgoCD)
 
 1 State Reconciliation:
@@ -89,7 +89,7 @@ II. Continuous Deployment (ArgoCD)
 
 3 Self-Healing:
          If a manual, unauthorized change is made directly in the cluster (e.g., via kubectl), ArgoCD automatically overwrites it to match the Git repository's desired state.
-
+---
 🛡️ Enterprise Security Posture
         Security was shifted left and embedded deeply into the infrastructure:
 
@@ -104,7 +104,7 @@ Strict Network Policies:
 
 .Passwordless CI/CD:
         GitHub Actions relies entirely on OpenID Connect (OIDC) for AWS authentication, preventing credential leaks.
-
+---
 👨‍💻 Local Development Guide
 
 Prerequisites:
@@ -113,7 +113,7 @@ Prerequisites:
    Docker Desktop (Optional, for local database container)
 
 
-
+---
 ## 👨‍💻 Local Development Guide
 
 ### Prerequisites
@@ -123,19 +123,19 @@ Prerequisites:
 ### Step 1: Initialize the Database
 ```bash
 # Run a local PostgreSQL instance for testing
-docker run --name calc-db -e POSTGRES_USER=calc_admin -e POSTGRES_PASSWORD=VaultPass99 -e POSTGRES_DB=calculator_db -p 5432:5432 -d postgres:15-alpine
+             docker run --name calc-db -e POSTGRES_USER=calc_admin -e POSTGRES_PASSWORD=VaultPass99 -e POSTGRES_DB=calculator_db -p 5432:5432 -d postgres:15-alpine
 
 Step 2: Boot the Backend EngineBashcd backend
-```bash
-*"npm install
-npm start"*
+                              ```bash
+                                 npm install
+                                 npm start
 
 # Server listens on http://localhost:8080. It will auto-initialize the database tables on startup.
 
 
 Step 3: Serve the FrontendBashcd frontend
-```bash
-npm install
-npm run dev
+                               ```bash
+                                npm install
+                                npm run dev
 
 # Vite Hot-Module Replacement server available at http://localhost:5173
