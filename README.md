@@ -1,4 +1,4 @@
-# 🧮 Digital Calculators: Enterprise Cloud-Native Platform
+    # 🧮 Digital Calculators: Enterprise Cloud-Native Platform
 
 ![Architecture](https://img.shields.io/badge/Architecture-Cloud--Native-blue)
 ![Deployment](https://img.shields.io/badge/Deployment-GitOps_(ArgoCD)-emerald)
