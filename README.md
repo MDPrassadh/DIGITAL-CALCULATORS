@@ -56,16 +56,81 @@ C:.
 │   └── package.json              # Backend dependencies
 ├── frontend/                     # React Single Page Application
 │   ├── src/
-│   │   ├── components/           # Modular UI (Auth, MathCalc, CurrencyCalc, etc.)
-│   │   ├── App.jsx               # Main Dashboard Router
-│   │   └── main.jsx              # React Entry Point
-│   ├── Dockerfile                # Nginx Web Server container (Rootless)
-│   ├── nginx.conf                # SPA Fallback Routing config for Nginx
-│   ├── vite.config.js            # Vite build configuration
-│   └── index.html                # HTML Base Template
-├── k8s/                          # Kubernetes Manifests (The "Desired State")
-│   ├── backend-deployment.yaml   # API scaling, limits, and DB environment injection
-│   ├── database-statefulset.yaml # PostgreSQL StatefulSet with Persistent Volumes
-│   ├── frontend-deployment.yaml  # UI scaling and resource bounds
-│   └── ingress.yaml              # AWS ALB config routing traffic to /api and /
-└── argocd-application.yaml       # ArgoCD Custom Resource linking this repo to EKS
+│   │   ├── components/           # Modular UI Components
+│   │   │   ├── Auth.jsx          # JWT Login & Registration UI
+│   │   │   ├── CurrencyCalc.jsx  # Live Exchange Rate Module
+│   │   │   ├── FinancialCalc.jsx # Mortgage & Loan Module
+
+
+🔄 CI/CD & GitOps Workflow
+
+This project abandons manual deployments in favor of a declarative, pull-based GitOps model. This ensures the cluster always matches the code in Git.
+
+I. Continuous Integration (GitHub Actions)When code is pushed to the main branch:
+
+1 Security Audit:
+     Trivy scans the filesystem for CVEs. The build automatically fails if CRITICAL or HIGH vulnerabilities are detected.
+
+2 OIDC Authentication:
+         Authenticates to AWS securely without storing long-lived IAM static keys.
+
+3 Build & Push:
+         Compiles the Docker images and pushes them to Amazon ECR.
+
+4 Manifest Mutation: The pipeline programmatically updates the image tags inside k8s/*-deployment.yaml and commits the new state back to the repository.
+
+II. Continuous Deployment (ArgoCD)
+
+1 State Reconciliation:
+         ArgoCD continually monitors the /k8s directory in this repository.
+
+2 Automated Sync:
+           Upon detecting the CI pipeline's commit, ArgoCD synchronizes the new ECR image tags into the active AWS EKS cluster.
+
+3 Self-Healing:
+         If a manual, unauthorized change is made directly in the cluster (e.g., via kubectl), ArgoCD automatically overwrites it to match the Git repository's desired state.
+
+🛡️ Enterprise Security Posture
+        Security was shifted left and embedded deeply into the infrastructure:
+
+Rootless Containers:
+ The Nginx and Node.js Dockerfiles drop kernel capabilities and execute as unprivileged users (UID 10001).
+
+Immutable Filesystems:
+            Kubernetes deployments enforce readOnlyRootFilesystem: true, neutralizing malware attempting to write to the container shell.
+
+Strict Network Policies:
+            The backend API strictly rejects Cross-Origin requests originating from anywhere other than https://prassadhmulticloud.online
+
+.Passwordless CI/CD:
+        GitHub Actions relies entirely on OpenID Connect (OIDC) for AWS authentication, preventing credential leaks.
+
+👨‍💻 Local Development Guide
+
+Prerequisites:
+
+   Node.js (v18+)
+   Docker Desktop (Optional, for local database container)
+
+
+
+Step 1: Initialize the DatabaseBash
+'''bash
+Run a local PostgreSQL instance for testing
+docker run --name calc-db -e POSTGRES_USER=calc_admin -e POSTGRES_PASSWORD=VaultPass99 -e POSTGRES_DB=calculator_db -p 5432:5432 -d postgres:15-alpine
+
+
+Step 2: Boot the Backend EngineBashcd backend
+'''bash
+npm install
+npm start
+
+# Server listens on http://localhost:8080. It will auto-initialize the database tables on startup.
+
+
+Step 3: Serve the FrontendBashcd frontend
+'''bash
+npm install
+npm run dev
+
+# Vite Hot-Module Replacement server available at http://localhost:5173
