@@ -29,7 +29,7 @@ jobs:
       - name: Authenticate to AWS Cloud via OIDC Architecture
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/EKS-OIDC-CI-Execution-Role
+          role-to-assume: arn:aws:iam::431412300010:role/GitHubActionsEKSRole
           aws-region: us-east-1
 
       - name: Authenticate Container Registry (ECR)
