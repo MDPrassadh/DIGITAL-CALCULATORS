@@ -152,3 +152,38 @@ Step 3: Serve the FrontendBashcd frontend
                                 npm run dev
 
 # Vite Hot-Module Replacement server available at http://localhost:5173
+
+
+Method 1: Using AWS CloudShell (No Local Setup Required)
+AWS CloudShell is a browser-based shell pre-authenticated with your AWS account credentials. It comes pre-installed with the AWS CLI and kubectl, meaning you don't need to install anything on your computer.
+
+Log into your AWS Management Console (us-east-1).
+
+Click the CloudShell icon (>_) in the top navigation bar next to the search box.
+
+Once the terminal opens, update your kubeconfig to target your cluster:
+
+Bash
+aws eks update-kubeconfig --region us-east-1 --name calc-cluster
+Apply your ingress.yaml file directly from your public GitHub repository using its raw URL:
+
+Bash
+kubectl apply -f https://raw.githubusercontent.com/MDPrassadh/DIGITAL-CALCULATORS/main/k8s/ingress.yaml
+
+
+
+Method 2: Using Your Local Terminal (Where You Ran Terraform)
+Since you already ran Terraform successfully, you already have the AWS CLI and terminal environment ready on your machine.
+
+Open PowerShell or Command Prompt.
+
+Run the update command to configure access to calc-cluster:
+
+Bash
+aws eks update-kubeconfig --region us-east-1 --name calc-cluster
+If you have your code cloned locally, navigate to your project folder and run:
+
+Bash
+kubectl apply -f k8s/ingress.yaml
+
+
