@@ -60,8 +60,21 @@ C:.
 │   │   │   ├── Auth.jsx          # JWT Login & Registration UI
 │   │   │   ├── CurrencyCalc.jsx  # Live Exchange Rate Module
 │   │   │   ├── FinancialCalc.jsx # Mortgage & Loan Module
-
----
+│   │   │   ├── HealthCalc.jsx    # BMI & Fitness Module
+│   │   │   ├── MathCalc.jsx      # Advanced Scientific Module
+│   │   │   └── MiscCalc.jsx      # Utilities & Time Module
+│   │   ├── App.jsx               # Main Dashboard Router
+│   │   └── main.jsx              # React Entry Point
+│   ├── Dockerfile                # Nginx Web Server container (Rootless)
+│   ├── nginx.conf                # SPA Fallback Routing config for Nginx
+│   ├── vite.config.js            # Vite build configuration
+│   └── index.html                # HTML Base Template
+├── k8s/                          # Kubernetes Manifests (The "Desired State")
+│   ├── backend-deployment.yaml   # API scaling, limits, and DB environment injection
+│   ├── database-statefulset.yaml # PostgreSQL StatefulSet with Persistent Volumes
+│   ├── frontend-deployment.yaml  # UI scaling and resource bounds
+│   └── ingress.yaml              # AWS ALB config routing traffic to /api and /
+└── argocd-application.yaml       # ArgoCD Custom Resource linking this repo to EKS
 🔄 CI/CD & GitOps Workflow
 
 This project abandons manual deployments in favor of a declarative, pull-based GitOps model. This ensures the cluster always matches the code in Git.
