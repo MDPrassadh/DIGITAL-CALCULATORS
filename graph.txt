@@ -1,0 +1,25 @@
+digitalcalculators/
+├── .github/workflows/
+│   └── secure-ci.yml                 # GitHub Actions CI Engine
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Auth.jsx              # Secure Login/Registration UI
+│   │   │   ├── MathCalc.jsx          # Algebra & Math Engine UI
+│   │   │   └── CurrencyCalc.jsx      # Live Currency Exchange UI
+│   │   ├── App.jsx                   # Dynamic Shell & Navigation Router
+│   │   └── main.jsx
+│   ├── Dockerfile                    # Production Non-Root Nginx
+│   └── package.json
+├── backend/
+│   ├── src/
+│   │   ├── db.js                     # Secure Database Pool Connection
+│   │   └── server.js                 # Express Application & REST API Routes
+│   ├── Dockerfile                    # Hardened Multi-Stage Runtime
+│   └── package.json
+└── k8s/                              # GitOps Repository Declarations
+    ├── database-statefulset.yaml     # Persistent Database Engine
+    ├── backend-deployment.yaml       # API Target Scaler
+    ├── frontend-deployment.yaml      # Static Frontend Web Scaler
+    ├── ingress.yaml                  # SSL/TLS EKS Application Load Balancer
+    └── argocd-application.yaml       # ArgoCD GitOps Sync Engine

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-frontend
+  namespace: calculation-prod
+  labels:
+    app: calc-frontend
+    owner: m-durga-prasad
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calc-frontend
+  template:
+    metadata:
+      labels:
+        app: calc-frontend
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+      - name: frontend
+        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/calc-frontend:latest
+        ports:
+        - containerPort: 80
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calc-frontend-svc
+  namespace: calculation-prod
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: calc-frontend

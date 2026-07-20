@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: calculation-platform-gitops
+  namespace: argocd
+  labels:
+    owner: m-durga-prasad
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/MDPrassadh/digitalcalculators.git'
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: calculation-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

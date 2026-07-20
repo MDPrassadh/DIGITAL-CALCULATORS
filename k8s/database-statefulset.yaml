@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: calc-db
+  namespace: calculation-prod
+spec:
+  serviceName: "calc-db-svc"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calc-db
+  template:
+    metadata:
+      labels:
+        app: calc-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        env:
+        - name: POSTGRES_DB
+          value: "calculator_db"
+        - name: POSTGRES_USER
+          value: "calc_admin"
+        - name: POSTGRES_PASSWORD
+          value: "VaultPass99"
+        ports:
+        - containerPort: 5432
+          name: dbport
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: db-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculatorss-database
+  namespace: calculation-prod
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: calc-db

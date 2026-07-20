@@ -1,0 +1,15 @@
+[2026-07-20 14:59:39.136] AIDevOps extension v2026.417.1749 activated
+[2026-07-20 14:59:39.139] [mcp-config] mcp.json not found at c:\Users\Admin\Desktop\Project\digitalcalculators\.vscode\mcp.json
+[2026-07-20 14:59:39.139] Discovered 0 AIDevOps server(s): (none)
+[2026-07-20 14:59:39.140] NuGet sources: msazure.pkgs.visualstudio.com/One/_packaging/AIDevOps/nuget/v3/index.json
+[2026-07-20 14:59:39.140] [watcher] Started (interval=1800s, 1 source(s), 0 known server(s))
+[2026-07-20 14:59:39.140] [watcher] Known servers: (none)
+[2026-07-20 14:59:39.140] [watcher] Feed sources: https://msazure.pkgs.visualstudio.com/One/_packaging/AIDevOps/nuget/v3/index.json
+[2026-07-20 14:59:39.141] AG-UI subscriber initialized (MAF-driven execution)
+[2026-07-20 14:59:41.862] [WorkflowServer] Preferred port 5870 is available
+[2026-07-20 14:59:41.863] [WorkflowServer] Port resolved: 5800 → 5870 (hash of "c:\Users\Admin\Desktop\Project\digitalcalculators" → preferred 5870)
+[2026-07-20 14:59:43.184] [WorkflowServer] Not running — attempting auto-start...
+[2026-07-20 14:59:43.185] [WorkflowServer] End-user mode — starting via dnx (NuGet package)
+[2026-07-20 14:59:43.193] [WorkflowServer] 'dnx' not found on PATH — attempting auto-install...
+[2026-07-20 14:59:43.508] [WorkflowServer] Auto-install of 'dnx' failed
+[2026-07-20 14:59:43.508] [WorkflowServer] 'dnx' command not available after auto-install attempt
