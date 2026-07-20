@@ -29,7 +29,7 @@ jobs:
       - name: Authenticate to AWS Cloud via OIDC Architecture
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::431412300010:role/GitHubActionsEKSRole
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
       - name: Authenticate Container Registry (ECR)
@@ -56,4 +56,5 @@ jobs:
           git config --global user.email "mdurgaprasad@example.com"
           git add k8s/
           git commit -m "chore: automate tracking tag release ${{ github.sha }} [skip ci]" || echo "No variations mapped"
+          git pull --rebase origin main
           git push origin main
