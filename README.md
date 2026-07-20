@@ -73,18 +73,16 @@ Docker & Docker Compose (optional for local DB testing)
 PostgreSQL (Local instance or Docker container)
 
 1. Start the Backend
-Bash
-cd backend
-npm install
+          cd backend
+          npm install
 # Ensure you have a local Postgres instance running or adjust the connection string in src/server.js
 npm start
 API will be available at http://localhost:8080
 
-2. Start the Frontend
-Bash
-cd frontend
-npm install
-npm run dev
+2.Start the Frontend
+           cd frontend
+           npm install
+           npm run dev
 React app will be available at http://localhost:5173
 
 ☁️ GitOps Deployment Pipeline
