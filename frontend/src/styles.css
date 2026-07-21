@@ -143,3 +143,89 @@ body.dark-mode .app-footer {
   color: #fff;
   font-size: 0.9rem;
 }
+
+/* Calculator container */
+.calculator {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  width: 320px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Display screen */
+.display {
+  background: #212121;
+  color: #fff;
+  font-size: 2rem;
+  text-align: right;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* Buttons grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+button {
+  padding: 18px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 600;
+}
+
+/* Number buttons */
+button.number {
+  background: #4CAF50;
+  color: #fff;
+}
+
+button.number:hover {
+  filter: brightness(90%);
+}
+
+/* Operator buttons (+, -, ×, ÷) */
+button.operator {
+  background: #FF9800;
+  color: #fff;
+}
+
+button.operator:hover {
+  filter: brightness(90%);
+}
+
+/* Clear / Reset button */
+button.clear {
+  background: #F44336;
+  color: #fff;
+}
+
+button.clear:hover {
+  filter: brightness(90%);
+}
+
+/* Equals button */
+button.equals {
+  background: #2196F3;
+  color: #fff;
+  grid-column: span 2; /* make it wider */
+}
+
+button.equals:hover {
+  filter: brightness(90%);
+}
+
+/* Active press effect */
+button:active {
+  transform: scale(0.95);
+}
