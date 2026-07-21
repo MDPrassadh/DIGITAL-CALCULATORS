@@ -6,6 +6,7 @@ export default function App() {
   const [display, setDisplay] = useState("0");
   const [history, setHistory] = useState([]);
   const [memory, setMemory] = useState(null);
+  const [category, setCategory] = useState("math"); // category state
 
   const handleClick = (value) => {
     if (value === "C") {
@@ -104,7 +105,14 @@ export default function App() {
         <h2>🧮 Digital Calculator</h2>
         <button id="theme-toggle">🌙 Toggle Dark Mode</button>
 
-        {/* Auth Forms */}
+        {/* Category Selector */}
+        <div className="category-selector">
+          <button onClick={() => setCategory("math")}>📘 Math</button>
+          <button onClick={() => setCategory("finance")}>💰 Finance</button>
+          <button onClick={() => setCategory("health")}>💊 Health</button>
+        </div>
+
+        {/* Auth Forms (only once) */}
         <div className="auth-container">
           <div className="auth-toggle">
             <button id="show-signin" className="active">Sign In</button>
@@ -137,7 +145,7 @@ export default function App() {
 
       {/* Main Calculator */}
       <main className="main-content">
-        <div className="calculator-card math animate-fadeIn">
+        <div className={`calculator-card ${category} animate-fadeIn`}>
           <div className="display">{display}</div>
           <div className="buttons grid grid-cols-4 gap-3">
             {/* Numbers */}
