@@ -31,7 +31,8 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
-
+          aws-session-name: GitHubActions-${{ matrix.component }}-${{ github.run_id }}
+          
       - name: Authenticate Container Registry (ECR)
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
