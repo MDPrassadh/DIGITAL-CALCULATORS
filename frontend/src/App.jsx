@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './styles.css';
+import './App.css';
 
 export default function App() {
   const [display, setDisplay] = useState("0");
@@ -46,9 +48,9 @@ export default function App() {
 
       {/* Main Calculator */}
       <main className="main-content">
-        <div className="calculator">
+        <div className="calculator-card math animate-fadeIn">
           <div className="display">{display}</div>
-          <div className="buttons">
+          <div className="buttons grid grid-cols-4 gap-3">
             <button className="number" onClick={() => handleClick("7")}>7</button>
             <button className="number" onClick={() => handleClick("8")}>8</button>
             <button className="number" onClick={() => handleClick("9")}>9</button>
