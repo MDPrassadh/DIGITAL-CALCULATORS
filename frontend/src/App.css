@@ -128,6 +128,60 @@ button::after {
   transition: transform 0.4s ease, opacity 0.8s ease;
 }
 
+/* History Panel Styling */
+.history {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.75); /* glass effect */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-height: 200px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.history h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.history li:last-child {
+  border-bottom: none;
+}
+
+/* Smooth scrollbar */
+.history.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.history.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.4);
+}
+.history.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.6);
+  border-radius: 4px;
+}
+.history.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.9);
+}
+
+
 button:active::after {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
