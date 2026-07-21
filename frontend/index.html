@@ -4,9 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Digital Calculators Platform</title>
+
+    <!-- Google Fonts for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
-    <div id="root"></div>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="app-header">
+        <h1>🧮 Digital Calculator</h1>
+        <p class="subtitle">Fast • Secure • Modern</p>
+      </header>
+
+      <!-- Calculator Root -->
+      <main id="root"></main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>© 2026 Digital Calculators Platform | Designed by Durga</p>
+      </footer>
+    </div>
+
+    <!-- React/Vite entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
