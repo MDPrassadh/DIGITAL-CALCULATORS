@@ -59,6 +59,8 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
           role-session-name: GitHubActionsUpdateSession
+          disable-retry: true
+          audience: sts.amazonaws.com
 
       - name: Authenticate Container Registry (To get Registry URL safely)
         id: login-ecr
