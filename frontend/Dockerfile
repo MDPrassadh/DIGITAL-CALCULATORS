@@ -1,29 +1,29 @@
 # ==========================================
 # Maintainer: M Durga Prasad
-# Multi-Stage Secure Production Build
+# Multi-Stage Secure Application Container
 # ==========================================
-FROM node:20.17-alpine AS build
+FROM node:20.17-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:1.25-alpine
+FROM node:20.17-alpine
 LABEL maintainer="M Durga Prasad"
 
-# Enforce non-root security context
-RUN addgroup -g 10001 -S calcgroup && \
-    adduser -S calcuser -u 10001 -G calcgroup
-
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-RUN chown -R calcuser:calcgroup /usr/share/nginx/html && \
-    chown -R calcuser:calcgroup /var/cache/nginx /var/log/nginx /etc/nginx/conf.d && \
-    touch /var/run/nginx.pid && \
-    chown calcuser:calcgroup /var/run/nginx.pid
-
-USER calcuser
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+ENV NODE_ENV=production
+
+RUN addgroup -S -g 10001 calc && \
+    adduser -S -u 10001 -G calc calc && \
+    mkdir -p /app && \
+    chown -R calc:calc /app
+
+WORKDIR /app
+COPY --from=builder --chown=calc:calc /app/dist ./dist
+COPY --from=builder --chown=calc:calc /app/node_modules ./node_modules
+COPY --from=builder --chown=calc:calc /app/package.json ./package.json
+
+USER calc
+CMD ["node", "server.js"]
