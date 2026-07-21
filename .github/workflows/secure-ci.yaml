@@ -5,15 +5,11 @@ on:
     branches: [ "main" ]
 
 permissions:
-  id-token: write
   contents: write
 
 jobs:
   audit-build-push:
     runs-on: ubuntu-latest
-    permissions: 
-      id-token: write
-      contents: read
     strategy:
       matrix:
         component: [backend, frontend]
@@ -29,13 +25,12 @@ jobs:
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
 
-      - name: Authenticate to AWS Cloud via OIDC Architecture
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          role-session-name: GitHubActions-${{ matrix.component }}
-          audience: sts.amazonaws.com
 
       - name: Authenticate Container Registry (ECR)
         id: login-ecr
@@ -57,14 +52,12 @@ jobs:
       - name: Sync Codebase
         uses: actions/checkout@v4
 
-      - name: Authenticate to AWS Cloud via OIDC Architecture
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          role-session-name: GitHubActionsUpdateSession
-          disable-retry: true
-          audience: sts.amazonaws.com
 
       - name: Authenticate Container Registry (To get Registry URL safely)
         id: login-ecr
@@ -86,3 +79,92 @@ jobs:
           git commit -m "chore: automate tracking tag release ${{ github.sha }} [skip ci]" || echo "No variations mapped"
           git pull --rebase origin main
           git push origin main
+# ---
+# name: Enterprise Multi-Tier CI Through GITHUB ACTIONS
+#
+# on:
+#   push:
+#     branches: [ "main" ]
+#
+# permissions:
+#   id-token: write
+#   contents: write
+#
+# jobs:
+#   audit-build-push:
+#     runs-on: ubuntu-latest
+#     permissions: 
+#       id-token: write
+#       contents: read
+#     strategy:
+#       matrix:
+#         component: [backend, frontend]
+#     steps:
+#       - name: Sync Codebase
+#         uses: actions/checkout@v4
+#
+#       - name: Vulnerability Static Analysis (Trivy Engine)
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           scan-ref: './${{ matrix.component }}'
+#           severity: 'CRITICAL,HIGH'
+#           exit-code: '1'
+#
+#       - name: Authenticate to AWS Cloud via OIDC Architecture
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+#           aws-region: us-east-1
+#           role-session-name: GitHubActions-${{ matrix.component }}
+#           audience: sts.amazonaws.com
+#
+#       - name: Authenticate Container Registry (ECR)
+#         id: login-ecr
+#         uses: aws-actions/amazon-ecr-login@v2
+#
+#       - name: Build & Tag Secure Container Image Layer
+#         uses: docker/build-push-action@v5
+#         with:
+#           context: ./${{ matrix.component }}
+#           push: true
+#           tags: |
+#             ${{ steps.login-ecr.outputs.registry }}/calc-${{ matrix.component }}:${{ github.sha }}
+#             ${{ steps.login-ecr.outputs.registry }}/calc-${{ matrix.component }}:latest
+#
+#   update-manifests:
+#     needs: audit-build-push
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Sync Codebase
+#         uses: actions/checkout@v4
+#
+#       - name: Authenticate to AWS Cloud via OIDC Architecture
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+#           aws-region: us-east-1
+#           role-session-name: GitHubActionsUpdateSession
+#           disable-retry: true
+#           audience: sts.amazonaws.com
+#
+#       - name: Authenticate Container Registry (To get Registry URL safely)
+#         id: login-ecr
+#         uses: aws-actions/amazon-ecr-login@v2
+#         with:
+#           aws-region: us-east-1
+#
+#       - name: Modify Tracking Manifest Targets for Backend & Frontend
+#         run: |
+#           REGISTRY="${{ steps.login-ecr.outputs.registry }}"
+#           sed -i "s|image: .\/calc-backend:.*|image: ${REGISTRY}/calc-backend:${{ github.sha }}|g" k8s/backend-deployment.yaml
+#           sed -i "s|image: .\/calc-frontend:.*|image: ${REGISTRY}/calc-frontend:${{ github.sha }}|g" k8s/frontend-deployment.yaml
+#
+#       - name: Commit & Track GitOps Synchronization States
+#         run: |
+#           git config --global user.name "M Durga Prasad"
+#           git config --global user.email "mdurgaprasad@example.com"
+#           git add k8s/
+#           git commit -m "chore: automate tracking tag release ${{ github.sha }} [skip ci]" || echo "No variations mapped"
+#           git pull --rebase origin main
+#           git push origin main
