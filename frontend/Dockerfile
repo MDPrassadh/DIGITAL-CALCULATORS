@@ -25,5 +25,8 @@ COPY --from=builder --chown=calc:calc /app/dist ./dist
 COPY --from=builder --chown=calc:calc /app/node_modules ./node_modules
 COPY --from=builder --chown=calc:calc /app/package.json ./package.json
 
+# Install a lightweight static server globally so 'calc' user can run it
+RUN npm install -g serve
+
 USER calc
-CMD ["node", "server.js"]
+CMD ["serve", "-s", "dist", "-l", "80"]
