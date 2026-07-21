@@ -1,42 +1,141 @@
+/* Global reset & base */
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #f5f7fa, #e4ebf5);
+  background: #f5f7fa;
   color: #333;
-}
-
-.app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.app-header {
-  text-align: center;
-  padding: 20px;
+/* Dark mode */
+body.dark-mode {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark-mode .sidebar {
+  background: #1e1e1e;
+}
+
+body.dark-mode .main-content {
+  background: #222;
+}
+
+body.dark-mode .app-footer {
+  background: #1e1e1e;
+}
+
+/* Layout container */
+.app-container {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
   background: #4CAF50;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.app-header h1 {
+.sidebar h2 {
   margin: 0;
-  font-size: 2rem;
+  font-size: 1.4rem;
 }
 
-.subtitle {
-  font-size: 1rem;
-  opacity: 0.9;
+#theme-toggle {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #fff;
+  color: #4CAF50;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
 }
 
-#root {
+#theme-toggle:hover {
+  background: #e0e0e0;
+}
+
+/* Auth container */
+.auth-container {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.auth-toggle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.auth-toggle button {
   flex: 1;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background: #f5f5f5;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.auth-toggle button.active {
+  background: #333;
+  color: #fff;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form input {
+  margin: 8px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+}
+
+.auth-form button {
+  margin-top: 12px;
+  padding: 10px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.auth-form button:hover {
+  background: #555;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Main content (calculator mount) */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
 }
 
+/* Footer */
 .app-footer {
   text-align: center;
   padding: 15px;
