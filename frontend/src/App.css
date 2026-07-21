@@ -187,3 +187,19 @@ button:active::after {
   opacity: 1;
   transition: 0s;
 }
+
+.clear-history {
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s ease;
+}
+
+.clear-history:hover {
+  background: #d32f2f;
+}
