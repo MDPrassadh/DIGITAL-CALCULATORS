@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
 import './App.css';
 
 export default function App() {
   const [display, setDisplay] = useState("0");
   const [history, setHistory] = useState([]);
+  const [memory, setMemory] = useState(null);
 
   const handleClick = (value) => {
     if (value === "C") {
@@ -41,6 +42,30 @@ export default function App() {
       } catch {
         setDisplay("Error");
       }
+    } else if (value === "M+") {
+      try {
+        const current = eval(display);
+        setMemory(memory ? memory + current : current);
+        setHistory([...history, "M+ " + current]);
+      } catch {
+        setDisplay("Error");
+      }
+    } else if (value === "M-") {
+      try {
+        const current = eval(display);
+        setMemory(memory ? memory - current : -current);
+        setHistory([...history, "M- " + current]);
+      } catch {
+        setDisplay("Error");
+      }
+    } else if (value === "MR") {
+      if (memory !== null) {
+        setDisplay(memory.toString());
+        setHistory([...history, "MR = " + memory]);
+      }
+    } else if (value === "MC") {
+      setMemory(null);
+      setHistory([...history, "MC (Memory Cleared)"]);
     } else {
       setDisplay(display === "0" ? value : display + value);
     }
@@ -49,6 +74,28 @@ export default function App() {
   const clearHistory = () => {
     setHistory([]);
   };
+
+  // ✅ Keyboard support
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      const key = event.key;
+
+      if (!isNaN(key)) {
+        handleClick(key);
+      } else if (["+", "-", "*", "/"].includes(key)) {
+        handleClick(key);
+      } else if (key === "Enter") {
+        handleClick("=");
+      } else if (key === "Backspace") {
+        setDisplay(display.length > 1 ? display.slice(0, -1) : "0");
+      } else if (key.toLowerCase() === "c") {
+        handleClick("C");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [display]);
 
   return (
     <div className="app-container">
@@ -118,6 +165,12 @@ export default function App() {
             <button className="operator" onClick={() => handleClick("√")}>√</button>
             <button className="operator" onClick={() => handleClick("^2")}>x²</button>
             <button className="operator" onClick={() => handleClick("%")}>%</button>
+
+            {/* Memory Functions */}
+            <button className="operator" onClick={() => handleClick("M+")}>M+</button>
+            <button className="operator" onClick={() => handleClick("M-")}>M-</button>
+            <button className="operator" onClick={() => handleClick("MR")}>MR</button>
+            <button className="operator" onClick={() => handleClick("MC")}>MC</button>
           </div>
         </div>
       </main>
