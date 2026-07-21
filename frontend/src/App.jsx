@@ -46,6 +46,10 @@ export default function App() {
     }
   };
 
+  const clearHistory = () => {
+    setHistory([]);
+  };
+
   return (
     <div className="app-container">
       {/* Sidebar */}
@@ -75,6 +79,7 @@ export default function App() {
         {/* History Panel */}
         <div className="history custom-scrollbar">
           <h3>📝 History</h3>
+          <button className="clear-history" onClick={clearHistory}>🗑️ Clear History</button>
           <ul>
             {history.map((item, index) => (
               <li key={index}>{item}</li>
