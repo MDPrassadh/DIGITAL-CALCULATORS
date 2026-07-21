@@ -35,6 +35,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
           role-session-name: GitHubActionsSession
+          audience: sts.amazonaws.com
 
       - name: Authenticate Container Registry (ECR)
         id: login-ecr
