@@ -32,7 +32,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
           role-session-name: GitHubActions-${{ matrix.component }}-${{ github.run_id }}
-          
+
       - name: Authenticate Container Registry (ECR)
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -46,11 +46,26 @@ jobs:
             ${{ steps.login-ecr.outputs.registry }}/calc-${{ matrix.component }}:${{ github.sha }}
             ${{ steps.login-ecr.outputs.registry }}/calc-${{ matrix.component }}:latest
 
-      # Automatically updates the Kubernetes manifests with the new image tag to trigger GitOps
-      - name: Modify Tracking Manifest Targets
+  update-manifests:
+    needs: audit-build-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Codebase
+        uses: actions/checkout@v4
+
+      - name: Authenticate Container Registry (To get Registry URL safely)
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          aws-region: us-east-1
+        # Note: If ECR login requires AWS credentials here, you can add aws-actions/configure-aws-credentials above this step as well.
+
+      - name: Modify Tracking Manifest Targets for Backend & Frontend
         run: |
-          sed -i "s|image: .*\/calc-${{ matrix.component }}:.*|image: ${{ steps.login-ecr.outputs.registry }}/calc-${{ matrix.component }}:${{ github.sha }}|g" k8s/${{ matrix.component }}-deployment.yaml
-          
+          REGISTRY="${{ steps.login-ecr.outputs.registry }}"
+          sed -i "s|image: .\/calc-backend:.*|image: ${REGISTRY}/calc-backend:${{ github.sha }}|g" k8s/backend-deployment.yaml
+          sed -i "s|image: .\/calc-frontend:.*|image: ${REGISTRY}/calc-frontend:${{ github.sha }}|g" k8s/frontend-deployment.yaml
+
       - name: Commit & Track GitOps Synchronization States
         run: |
           git config --global user.name "M Durga Prasad"
