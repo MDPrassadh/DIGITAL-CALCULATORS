@@ -6,44 +6,118 @@
     <title>Digital Calculators Platform</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600&display=swap" rel="stylesheet">
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/src/styles.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #0d1b2a; /* dark blue */
+        color: #e0e0e0;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem 1rem;
+        background-color: #1b263b;
+      }
+      header h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+      }
+      .auth-form-inline {
+        display: flex;
+        gap: 0.3rem;
+        font-size: 0.7rem;
+      }
+      .auth-form-inline input {
+        padding: 0.2rem;
+        font-size: 0.7rem;
+      }
+      .auth-form-inline button {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.7rem;
+        background: #415a77;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .app-container {
+        display: flex;
+        min-height: calc(100vh - 40px);
+      }
+      .sidebar {
+        width: 220px;
+        background-color: #1b263b;
+        padding: 1rem;
+      }
+      .category-selector button {
+        display: block;
+        width: 100%;
+        margin: 0.3rem 0;
+        padding: 0.4rem;
+        background: #415a77;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        cursor: pointer;
+      }
+      .history {
+        margin-top: 1rem;
+        font-size: 0.75rem;
+      }
+      .main-content {
+        flex: 1;
+        padding: 1.5rem;
+      }
+      .app-footer {
+        text-align: center;
+        padding: 0.5rem;
+        font-size: 0.7rem;
+        background-color: #1b263b;
+        color: #aaa;
+      }
+    </style>
   </head>
   <body>
+    <!-- Top bar -->
+    <header>
+      <h2>🧮 Digital Calculator</h2>
+      <!-- Small Sign In form (top-right corner) -->
+      <form id="signin-form" class="auth-form-inline">
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit">Sign In</button>
+      </form>
+    </header>
+
     <div class="app-container">
-      
-      <!-- Sidebar (left aligned) -->
+      <!-- Sidebar -->
       <aside class="sidebar">
-        <h2>🧮 Digital Calculator</h2>
         <button id="theme-toggle">🌙 Toggle Dark Mode</button>
 
-        <!-- Auth Toggle -->
-        <div class="auth-container">
-          <div class="auth-toggle">
-            <button id="show-signin" class="active">Sign In</button>
-            <button id="show-signup">Sign Up</button>
-          </div>
+        <!-- Category Selector -->
+        <div class="category-selector">
+          <button>📘 Math</button>
+          <button>💰 Finance</button>
+          <button>💊 Health</button>
+        </div>
 
-          <!-- Sign In Form -->
-          <form id="signin-form" class="auth-form">
-            <input type="email" placeholder="Email" required />
-            <input type="password" placeholder="Password" required />
-            <button type="submit">Sign In</button>
-          </form>
-
-          <!-- Sign Up Form -->
-          <form id="signup-form" class="auth-form hidden">
-            <input type="text" placeholder="Full Name" required />
-            <input type="email" placeholder="Email" required />
-            <input type="password" placeholder="Password" required />
-            <button type="submit">Sign Up</button>
-          </form>
+        <!-- History Panel -->
+        <div class="history">
+          <h3>📝 History</h3>
+          <button class="clear-history">🗑️ Clear</button>
+          <ul id="history-list"></ul>
         </div>
       </aside>
 
-      <!-- Main content (calculator UI mounts here) -->
+      <!-- Main content (calculator mounts here) -->
       <main id="root" class="main-content"></main>
     </div>
 
@@ -55,32 +129,11 @@
     <!-- React/Vite entry -->
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Dark mode + Auth toggle logic -->
+    <!-- Dark mode toggle -->
     <script>
-      // Dark mode toggle
       const toggleBtn = document.getElementById('theme-toggle');
       toggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-      });
-
-      // Auth toggle
-      const signinBtn = document.getElementById('show-signin');
-      const signupBtn = document.getElementById('show-signup');
-      const signinForm = document.getElementById('signin-form');
-      const signupForm = document.getElementById('signup-form');
-
-      signinBtn.addEventListener('click', () => {
-        signinForm.classList.remove('hidden');
-        signupForm.classList.add('hidden');
-        signinBtn.classList.add('active');
-        signupBtn.classList.remove('active');
-      });
-
-      signupBtn.addEventListener('click', () => {
-        signupForm.classList.remove('hidden');
-        signinForm.classList.add('hidden');
-        signupBtn.classList.add('active');
-        signinBtn.classList.remove('active');
       });
     </script>
   </body>
