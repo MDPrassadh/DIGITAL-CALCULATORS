@@ -32,7 +32,6 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
           role-session-name: GitHubActionsSession
-          #role-session-name: GitHubActions-${{ matrix.component }}-${{ github.run_id }}
 
       - name: Authenticate Container Registry (ECR)
         id: login-ecr
@@ -54,12 +53,18 @@ jobs:
       - name: Sync Codebase
         uses: actions/checkout@v4
 
+      - name: Authenticate to AWS Cloud via OIDC Architecture
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: GitHubActionsUpdateSession
+
       - name: Authenticate Container Registry (To get Registry URL safely)
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
           aws-region: us-east-1
-        # Note: If ECR login requires AWS credentials here, you can add aws-actions/configure-aws-credentials above this step as well.
 
       - name: Modify Tracking Manifest Targets for Backend & Frontend
         run: |
