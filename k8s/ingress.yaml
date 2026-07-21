@@ -15,6 +15,15 @@ spec:
     - host: prassadhmulticloud.online
       http:
         paths:
+          # Route backend API requests to the backend service
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: calc-backend-svc
+                port:
+                  number: 8080
+          # Route everything else to the frontend service
           - path: /
             pathType: Prefix
             backend:
