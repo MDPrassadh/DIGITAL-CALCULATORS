@@ -11,6 +11,9 @@ permissions:
 jobs:
   audit-build-push:
     runs-on: ubuntu-latest
+    permissions: 
+      id-token: write
+      contents: read
     strategy:
       matrix:
         component: [backend, frontend]
