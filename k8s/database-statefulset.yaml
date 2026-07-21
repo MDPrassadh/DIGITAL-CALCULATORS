@@ -24,6 +24,8 @@ spec:
           value: "calc_admin"
         - name: POSTGRES_PASSWORD
           value: "VaultPass99"
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata   # <--- Add this line
         ports:
         - containerPort: 5432
           name: dbport
