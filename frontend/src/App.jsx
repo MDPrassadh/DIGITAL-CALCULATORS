@@ -4,13 +4,40 @@ import './App.css';
 
 export default function App() {
   const [display, setDisplay] = useState("0");
+  const [history, setHistory] = useState([]);
 
   const handleClick = (value) => {
     if (value === "C") {
       setDisplay("0");
     } else if (value === "=") {
       try {
-        setDisplay(eval(display).toString());
+        const result = eval(display).toString();
+        setDisplay(result);
+        setHistory([...history, display + " = " + result]);
+      } catch {
+        setDisplay("Error");
+      }
+    } else if (value === "√") {
+      try {
+        const result = Math.sqrt(eval(display)).toString();
+        setDisplay(result);
+        setHistory([...history, "√(" + display + ") = " + result]);
+      } catch {
+        setDisplay("Error");
+      }
+    } else if (value === "%") {
+      try {
+        const result = (eval(display) / 100).toString();
+        setDisplay(result);
+        setHistory([...history, display + "% = " + result]);
+      } catch {
+        setDisplay("Error");
+      }
+    } else if (value === "^2") {
+      try {
+        const result = Math.pow(eval(display), 2).toString();
+        setDisplay(result);
+        setHistory([...history, display + "² = " + result]);
       } catch {
         setDisplay("Error");
       }
@@ -44,6 +71,16 @@ export default function App() {
             <button type="submit">Sign Up</button>
           </form>
         </div>
+
+        {/* History Panel */}
+        <div className="history custom-scrollbar">
+          <h3>📝 History</h3>
+          <ul>
+            {history.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
       </aside>
 
       {/* Main Calculator */}
@@ -51,6 +88,7 @@ export default function App() {
         <div className="calculator-card math animate-fadeIn">
           <div className="display">{display}</div>
           <div className="buttons grid grid-cols-4 gap-3">
+            {/* Numbers */}
             <button className="number" onClick={() => handleClick("7")}>7</button>
             <button className="number" onClick={() => handleClick("8")}>8</button>
             <button className="number" onClick={() => handleClick("9")}>9</button>
@@ -70,6 +108,11 @@ export default function App() {
             <button className="number" onClick={() => handleClick("0")}>0</button>
             <button className="equals" onClick={() => handleClick("=")}>=</button>
             <button className="operator" onClick={() => handleClick("+")}>+</button>
+
+            {/* Scientific Functions */}
+            <button className="operator" onClick={() => handleClick("√")}>√</button>
+            <button className="operator" onClick={() => handleClick("^2")}>x²</button>
+            <button className="operator" onClick={() => handleClick("%")}>%</button>
           </div>
         </div>
       </main>
