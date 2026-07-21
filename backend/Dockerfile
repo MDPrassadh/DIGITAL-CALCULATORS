@@ -5,7 +5,7 @@
 FROM node:20.17-alpine AS builder
 WORKDIR /opt/server
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 
 FROM node:20.17-alpine
