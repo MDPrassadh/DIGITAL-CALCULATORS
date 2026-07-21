@@ -21,7 +21,7 @@ spec:
         runAsUser: 10001
       containers:
       - name: frontend
-        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/calc-frontend:latest
+        image: 431412300010.dkr.ecr.us-east-1.amazonaws.com/calc-frontend:latest
         ports:
         - containerPort: 80
         securityContext:
