@@ -44,7 +44,7 @@ export default function App() {
             <div 
               key={item.id} 
               onClick={() => setActiveView(item.id)}
-              className="group bg-slate-900 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-cyan-500/10"
+              className="group bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-cyan-500/10 backdrop-blur-sm"
             >
               <div className="text-3xl mb-3">{item.icon}</div>
               <h3 className="text-lg font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">{item.title}</h3>
@@ -62,21 +62,27 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
       
-      {/* Top Brand Header */}
+      {/* Sleek Top Brand Header with Founder Attribution */}
       <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-6 py-3.5 flex justify-between items-center shadow-xl sticky top-0 z-50">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20">
             ⚡
           </div>
-          <h1 
-            onClick={() => setActiveView('dashboard')}
-            className="text-lg md:text-xl font-black bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent tracking-wider cursor-pointer"
-          >
-            DIGITAL CALCULATORS
-          </h1>
+          <div>
+            <h1 
+              onClick={() => setActiveView('dashboard')}
+              className="text-base md:text-xl font-black bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent tracking-wider cursor-pointer"
+            >
+              DIGITAL CALCULATORS
+            </h1>
+            <p className="text-[10px] text-cyan-400 font-mono tracking-wider font-semibold">FOUNDED & MAINTAINED BY M DURGA PRASAD</p>
+          </div>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-xs text-slate-400 hidden sm:inline">Logged in as <strong className="text-slate-200">Creator</strong></span>
+          <div className="hidden sm:flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/60 text-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-slate-300">Creator Hub</span>
+          </div>
           <button 
             onClick={handleLogout} 
             className="bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-rose-500/20 transition-all shadow-sm"
@@ -90,7 +96,7 @@ export default function App() {
       <div className="flex-1 max-w-[1600px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Column 1: Side Navigation Bar (3 Spans) */}
-        <aside className="lg:col-span-3 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-xl sticky top-20">
+        <aside className="lg:col-span-3 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-xl sticky top-20 backdrop-blur-md">
           <div className="text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 mb-3">
             Navigation Menu
           </div>
@@ -116,9 +122,9 @@ export default function App() {
         </aside>
 
         {/* Column 2: Active Tool / Feature Workspace (6 Spans) */}
-        <main className="lg:col-span-6 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm min-h-[600px]">
+        <main className="lg:col-span-6 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 md:p-8 shadow-xl backdrop-blur-md min-h-[600px]">
           <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-            <h2 className="text-lg font-bold text-white capitalize flex items-center gap-2">
+            <h2 className="text-base md:text-lg font-bold text-white capitalize flex items-center gap-2">
               <span>{menu.find(m => m.id === activeView)?.icon || '✨'}</span>
               {activeView === 'dashboard' ? 'Platform Command Overview' : `${activeView} Calculator Suite`}
             </h2>
@@ -129,10 +135,11 @@ export default function App() {
 
           {activeView === 'dashboard' ? (
             <div className="space-y-6">
-              <div className="bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 border border-cyan-500/20 p-6 rounded-2xl shadow-inner">
-                <h3 className="text-xl font-bold text-white mb-2">Welcome back, Creator! 👋</h3>
+              <div className="bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 border border-cyan-500/20 p-6 rounded-2xl shadow-inner relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-6 -mr-6 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                <h3 className="text-xl font-bold text-white mb-2">Welcome back, M Durga Prasad! 👋</h3>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  Your cloud-native microservices cluster is fully optimized and online. Select any category on the left sidebar to instantly launch your calculation suites side-by-side.
+                  Your enterprise microservices platform is live and fully synchronized at <a href="https://prassadhmulticloud.online" className="text-cyan-400 underline">prassadhmulticloud.online</a>. Select any module from the left menu to launch your tools side-by-side.
                 </p>
               </div>
               <div>
@@ -146,7 +153,7 @@ export default function App() {
         </main>
 
         {/* Column 3: Live Audit History Log (3 Spans) */}
-        <aside className="lg:col-span-3 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-xl sticky top-20 max-h-[calc(100vh-7rem)] overflow-y-auto">
+        <aside className="lg:col-span-3 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-xl sticky top-20 max-h-[calc(100vh-7rem)] overflow-y-auto custom-scrollbar backdrop-blur-md">
           <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
             <h3 className="text-xs font-bold tracking-wider text-slate-300 uppercase flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -159,8 +166,8 @@ export default function App() {
           
           <div className="space-y-2.5">
             {history.length === 0 ? (
-              <div className="text-center py-10 px-4 border border-dashed border-slate-800 rounded-xl">
-                <p className="text-xs text-slate-500 italic">No executions logged yet. Run calculations to see real-time state updates!</p>
+              <div className="text-center py-12 px-4 border border-dashed border-slate-800 rounded-xl">
+                <p className="text-xs text-slate-500 italic">No executions logged yet. Run calculations to see real-time state audits!</p>
               </div>
             ) : (
               history.map((item, index) => (
@@ -180,6 +187,11 @@ export default function App() {
         </aside>
 
       </div>
+
+      {/* Footer Attribution */}
+      <footer className="border-t border-slate-800/80 bg-slate-900/60 py-4 px-6 text-center text-xs text-slate-400 mt-auto">
+        <span>Digital Calculators Platform &bull; Founded & Maintained by <strong className="text-cyan-400">M Durga Prasad</strong></span>
+      </footer>
     </div>
   );
 }
